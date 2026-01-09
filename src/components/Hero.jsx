@@ -1,0 +1,136 @@
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { useRef } from 'react';
+import profileImg from '../assets/profile.png'; // Import profile image
+
+import ScrambleText from './ScrambleText';
+
+const Hero = () => {
+    const footerRef = useRef(null);
+    const { scrollYProgress } = useScroll({
+        target: footerRef,
+        offset: ["start end", "end start"]
+    });
+
+    const y = useTransform(scrollYProgress, [0, 1], [-20, 20]); // Subtle natural movement
+    const scale = useTransform(scrollYProgress, [0, 0.5], [1.1, 1]); // Gentle settle-in effect
+    const opacity = useTransform(scrollYProgress, [0, 0.3], [0, 1]); // Smooth fade
+    const blur = useTransform(scrollYProgress, [0, 0.3], ["5px", "0px"]); // Soft focus reveal
+
+    return (
+        <section className="min-h-screen bg-white flex flex-col pt-32 md:pt-48 relative overflow-hidden font-sans">
+
+            {/* Top Section */}
+            <div className="px-6 md:px-12 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 mb-auto w-full max-w-[1920px] mx-auto h-full">
+
+                {/* Headline - Full width on mobile, Left col on Desktop */}
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8 }}
+                    className="flex flex-col justify-start"
+                >
+                    <h1 className="text-5xl sm:text-6xl md:text-5xl lg:text-7xl font-bold text-black leading-[1.05] tracking-tight max-w-4xl">
+                        <ScrambleText text="Web Development" className="block" />
+                        <ScrambleText text="Design" className="block" delay={200} />
+                        <ScrambleText text="UI/UX" className="text-gray-400 block" delay={400} />
+                    </h1>
+                </motion.div>
+
+                {/* Bio - Stacks below on mobile with tailored alignment */}
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8, delay: 0.2 }}
+                    className="flex flex-col justify-start pt-2 lg:items-end"
+                >
+                    <p className="text-lg sm:text-xl md:text-2xl lg:text-[1.7rem] text-black font-medium leading-[1.3] tracking-normal max-w-xl text-left lg:text-left">
+                        I believe creativity isn't just a skill, it's a mindset. Born from a passion for bold ideas and beautifully crafted storytelling.
+                    </p>
+                </motion.div>
+            </div>
+
+            {/* 3D Rolling Text */}
+            <div className="w-full mt-16 md:mt-32 flex justify-center perspective-[1000px]">
+                <h1 className="text-[15.5vw] leading-[0.75] font-black tracking-[-0.06em] text-center text-black select-none cursor-default flex justify-center gap-2 md:gap-4 flex-wrap">
+                    {"Nitin Tanwar".split(" ").map((word, wordIndex) => (
+                        <div key={wordIndex} className="flex">
+                            {word.split('').map((char, charIndex) => (
+                                <div key={charIndex} className="relative overflow-hidden h-[1em]">
+                                    <motion.span
+                                        initial={{ y: 0 }}
+                                        whileHover={{ y: "-150%" }} // Move up by 150% to align the second char
+                                        transition={{ duration: 0.5, ease: [0.33, 1, 0.68, 1] }}
+                                        className="relative block"
+                                    >
+                                        <span className="block">{char}</span>
+                                        {/* Position duplicate char with a 50% gap (at 150%) */}
+                                        <span className="block absolute top-[150%] left-0">{char}</span>
+                                    </motion.span>
+                                </div>
+                            ))}
+                        </div>
+                    ))}
+                </h1>
+            </div>
+
+            {/* Footer with Profile Image */}
+            {/* Footer with Profile Image */}
+            {/* Footer with Profile Image */}
+            <div ref={footerRef} className="bg-black w-full relative h-[400px] md:h-[500px] overflow-hidden flex flex-col md:flex-row justify-between items-end px-6 md:px-24 border-t border-zinc-900">
+
+                {/* Spotlight Background Effect */}
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,_#1a1a1a_0%,_#000000_100%)] opacity-70 pointer-events-none" />
+
+                {/* About Me Text */}
+                <motion.div
+                    initial={{ opacity: 0, x: -50 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.8, delay: 0.2 }}
+                    className="relative z-20 max-w-lg text-left self-center md:mb-0 mb-8"
+                >
+                    <div className="flex items-center gap-4 mb-6">
+                        <div className="w-12 h-[1px] bg-zinc-700" />
+                        <h3 className="text-zinc-400 text-sm md:text-base font-medium tracking-[0.2em] uppercase">About Me</h3>
+                    </div>
+                    <p className="text-white text-2xl md:text-3xl lg:text-4xl font-light leading-snug tracking-wide">
+                        I'm <span className="font-normal text-white">Nitin Tanwar</span>, a passionate developer creating intuitive and dynamic <span className="text-zinc-500">user experiences.</span>
+                    </p>
+                </motion.div>
+
+                <div className="relative w-full max-w-xl h-full flex items-end justify-center z-10">
+                    <motion.div
+                        initial={{ opacity: 0, y: 50 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 1 }}
+                        style={{ y, scale, opacity, filter: blur }}
+                        className="relative w-full h-[90%] md:h-full"
+                    >
+                        {/* Image Masked to blend with black background */}
+                        <div className="absolute inset-0 z-0">
+                            <img
+                                src={profileImg}
+                                alt="Nitin Tanwar"
+                                className="w-full h-full object-cover object-top opacity-90 grayscale"
+                                style={{
+                                    maskImage: 'radial-gradient(circle at 50% 30%, black 30%, transparent 70%)',
+                                    WebkitMaskImage: 'radial-gradient(circle at 50% 30%, black 30%, transparent 70%)'
+                                }}
+                            />
+                        </div>
+
+                        {/* Heavy Vignette to force blending */}
+                        <div className="absolute inset-0 z-20 pointer-events-none bg-[radial-gradient(circle_at_50%_30%,_transparent_20%,_#000000_80%)]" />
+
+                        {/* Gradient Overlays for smooth blending */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black z-10" />
+                        <div className="absolute inset-0 bg-gradient-to-x from-black via-transparent to-black z-10" />
+                    </motion.div>
+                </div>
+            </div>
+        </section>
+    );
+};
+
+export default Hero;

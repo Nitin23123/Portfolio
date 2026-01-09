@@ -1,0 +1,29 @@
+@import "@fontsource/inter/400.css";
+@import "@fontsource/inter/500.css";
+@import "@fontsource/inter/600.css";
+@import "@fontsource/inter/700.css";
+@import "@fontsource/inter/800.css";
+@import "@fontsource/inter/900.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+  scroll-behavior: smooth;
+  font-family: 'Inter', sans-serif;
+  background-color: #ffffff;
+  color: #121212;
+  @apply antialiased subpixel-antialiased;
+}
+
+::selection {
+  background-color: #000;
+  color: #fff;
+}
+
+/* Custom Utilities for that "tight" feel */
+.tracking-tightest {
+  letter-spacing: -0.05em;
+}
