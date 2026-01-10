@@ -1,28 +1,39 @@
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
-import profileImg from '../assets/profile.png'; // Import profile image
+import profileImg from '../assets/profile.png';
 
 import ScrambleText from './ScrambleText';
 
+/**
+ * Hero Component
+ * 
+ * The main landing section of the portfolio. Features:
+ * - Scramble text effect for the main headline
+ * - Infinite rolling text animation on hover (Nitin Tanwar)
+ * - Parallax profile image reveal triggered by scroll
+ */
 const Hero = () => {
     const footerRef = useRef(null);
+
+    // Track scroll progress relative to the footer element
     const { scrollYProgress } = useScroll({
         target: footerRef,
         offset: ["start end", "end start"]
     });
 
-    const y = useTransform(scrollYProgress, [0, 1], [-20, 20]); // Subtle natural movement
-    const scale = useTransform(scrollYProgress, [0, 0.5], [1.1, 1]); // Gentle settle-in effect
-    const opacity = useTransform(scrollYProgress, [0, 0.3], [0, 1]); // Smooth fade
-    const blur = useTransform(scrollYProgress, [0, 0.3], ["5px", "0px"]); // Soft focus reveal
+    // Parallax & Reveal Transforms based on Scroll
+    const y = useTransform(scrollYProgress, [0, 1], [-20, 20]); // Subtle vertical movement
+    const scale = useTransform(scrollYProgress, [0, 0.5], [1.1, 1]); // Zoom out effect
+    const opacity = useTransform(scrollYProgress, [0, 0.3], [0, 1]); // Fade in
+    const blur = useTransform(scrollYProgress, [0, 0.3], ["5px", "0px"]); // Blur to focus
 
     return (
         <section className="min-h-screen bg-white flex flex-col pt-32 md:pt-48 relative overflow-hidden font-sans">
 
-            {/* Top Section */}
+            {/* Top Section: Headlines & Bio */}
             <div className="px-6 md:px-12 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 mb-auto w-full max-w-[1920px] mx-auto h-full">
 
-                {/* Headline - Full width on mobile, Left col on Desktop */}
+                {/* Animated Headline - Left Column */}
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -30,13 +41,14 @@ const Hero = () => {
                     className="flex flex-col justify-start"
                 >
                     <h1 className="text-5xl sm:text-6xl md:text-5xl lg:text-7xl font-bold text-black leading-[1.05] tracking-tight max-w-4xl">
+                        {/* Staggered scramble effects */}
                         <ScrambleText text="Web Development" className="block" />
                         <ScrambleText text="Design" className="block" delay={200} />
                         <ScrambleText text="UI/UX" className="text-gray-400 block" delay={400} />
                     </h1>
                 </motion.div>
 
-                {/* Bio - Stacks below on mobile with tailored alignment */}
+                {/* Bio Description - Right Column */}
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -49,7 +61,7 @@ const Hero = () => {
                 </motion.div>
             </div>
 
-            {/* 3D Rolling Text */}
+            {/* Interactive Name Display - 3D Rolling Letter Effect */}
             <div className="w-full mt-16 md:mt-32 flex justify-center perspective-[1000px]">
                 <h1 className="text-[15.5vw] leading-[0.75] font-black tracking-[-0.06em] text-center text-black select-none cursor-default flex justify-center gap-2 md:gap-4 flex-wrap">
                     {"Nitin Tanwar".split(" ").map((word, wordIndex) => (
@@ -58,12 +70,12 @@ const Hero = () => {
                                 <div key={charIndex} className="relative overflow-hidden h-[1em]">
                                     <motion.span
                                         initial={{ y: 0 }}
-                                        whileHover={{ y: "-150%" }} // Move up by 150% to align the second char
+                                        whileHover={{ y: "-150%" }} // Roll up to show duplicate char
                                         transition={{ duration: 0.5, ease: [0.33, 1, 0.68, 1] }}
                                         className="relative block"
                                     >
                                         <span className="block">{char}</span>
-                                        {/* Position duplicate char with a 50% gap (at 150%) */}
+                                        {/* Duplicate char positioned below for the loop effect */}
                                         <span className="block absolute top-[150%] left-0">{char}</span>
                                     </motion.span>
                                 </div>
@@ -73,15 +85,13 @@ const Hero = () => {
                 </h1>
             </div>
 
-            {/* Footer with Profile Image */}
-            {/* Footer with Profile Image */}
-            {/* Footer with Profile Image */}
-            <div ref={footerRef} className="bg-black w-full relative h-[400px] md:h-[500px] overflow-hidden flex flex-col md:flex-row justify-between items-end px-6 md:px-24 border-t border-zinc-900">
+            {/* Footer Section with Parallax Profile Image */}
+            <div id="about" ref={footerRef} className="bg-black w-full relative h-[400px] md:h-[500px] overflow-hidden flex flex-col md:flex-row justify-between items-end px-6 md:px-24 border-t border-zinc-900">
 
                 {/* Spotlight Background Effect */}
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,_#1a1a1a_0%,_#000000_100%)] opacity-70 pointer-events-none" />
 
-                {/* About Me Text */}
+                {/* About Me Mini-Bio */}
                 <motion.div
                     initial={{ opacity: 0, x: -50 }}
                     whileInView={{ opacity: 1, x: 0 }}
@@ -98,13 +108,14 @@ const Hero = () => {
                     </p>
                 </motion.div>
 
+                {/* Profile Image Container with Scroll Animations */}
                 <div className="relative w-full max-w-xl h-full flex items-end justify-center z-10">
                     <motion.div
                         initial={{ opacity: 0, y: 50 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 1 }}
-                        style={{ y, scale, opacity, filter: blur }}
+                        style={{ y, scale, opacity, filter: blur }} // Apply scroll transforms
                         className="relative w-full h-[90%] md:h-full"
                     >
                         {/* Image Masked to blend with black background */}
@@ -123,7 +134,7 @@ const Hero = () => {
                         {/* Heavy Vignette to force blending */}
                         <div className="absolute inset-0 z-20 pointer-events-none bg-[radial-gradient(circle_at_50%_30%,_transparent_20%,_#000000_80%)]" />
 
-                        {/* Gradient Overlays for smooth blending */}
+                        {/* Gradient Overlays for smooth edge blending */}
                         <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black z-10" />
                         <div className="absolute inset-0 bg-gradient-to-x from-black via-transparent to-black z-10" />
                     </motion.div>

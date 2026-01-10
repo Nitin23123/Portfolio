@@ -1,6 +1,19 @@
 import { useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 
+/**
+ * TechCube Component
+ * 
+ * Renders an interactive 3D Cube using CSS transforms and Framer Motion.
+ * 
+ * Behaviours:
+ * - Idle: Slow random rotation
+ * - Hover: Fast spin, "exploded view" (faces move outward), and glow intensification
+ * 
+ * @param {Object} props
+ * @param {React.ReactNode} props.icon - The icon to display on the front face
+ * @param {string} props.color - The theme color for the cube (hex code)
+ */
 const TechCube = ({ icon, color }) => {
     const [isHovered, setIsHovered] = useState(false);
 
@@ -24,7 +37,10 @@ const TechCube = ({ icon, color }) => {
                     ease: "linear"
                 }}
             >
-                {/* Faces Loop */}
+                {/* 
+                    Cube Faces Loop 
+                    Generates 6 faces positioned using rotate and translateZ
+                */}
                 {[
                     { baseTransform: '', translateZ: 32, isFront: true }, // Front
                     { baseTransform: 'rotateY(180deg)', translateZ: 32 }, // Back
@@ -49,6 +65,7 @@ const TechCube = ({ icon, color }) => {
                         }}
                         transition={{ duration: 0.3 }}
                     >
+                        {/* Only render icon on the front face to keep DOM light */}
                         {face.isFront && (
                             <div
                                 className="text-3xl text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.8)]"
@@ -63,7 +80,7 @@ const TechCube = ({ icon, color }) => {
                 ))}
             </motion.div>
 
-            {/* Core Glow */}
+            {/* Core Glow - The central light source inside the cube */}
             <motion.div
                 className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-full blur-xl pointer-events-none"
                 style={{ backgroundColor: color }}

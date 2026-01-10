@@ -1,5 +1,11 @@
 import { motion } from 'framer-motion';
 
+/**
+ * Contact Component
+ * 
+ * The final call-to-action section.
+ * Features a large typography layout that animates in when scrolled into view.
+ */
 const Contact = () => {
     return (
         <section id="contact" className="py-32 bg-gray-50 text-black">
@@ -16,7 +22,9 @@ const Contact = () => {
                     </h2>
 
                     <a
-                        href="mailto:hello@example.com"
+                        href="https://www.linkedin.com/in/nitin-tanwar-535018303/"
+                        target="_blanpk"
+                        rel="noopener noreferrer"
                         className="inline-block px-12 py-5 bg-black text-white rounded-full font-bold text-lg hover:bg-gray-900 transition-all hover:scale-105"
                     >
                         Say Hello

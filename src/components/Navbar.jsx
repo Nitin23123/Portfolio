@@ -1,8 +1,14 @@
 import { motion } from 'framer-motion';
 import { FaStarOfLife } from 'react-icons/fa';
 
+/**
+ * Navbar Component
+ * 
+ * Displays the application navigation and a logo with a CMYK glitch hover effect.
+ * The navbar is fixed to the top and uses pointer-events to manage interaction zones.
+ */
 const Navbar = () => {
-    // Links exactly as in image: WORK, BLOG, ABOUT, CONTACT
+    // Navigation links displayed in the top right
     const links = ['WORK', 'BLOG', 'ABOUT', 'CONTACT'];
 
     return (
@@ -12,15 +18,17 @@ const Navbar = () => {
             whileHover="hover"
         >
             <div className="flex justify-between items-start pointer-events-auto">
-                {/* Logo Top Left - Exact match: Small, Black, Sharp */}
-                {/* Logo Top Left - CMYK Glitch with Area Trigger */}
+                {/* 
+                    Logo Container 
+                    Contains multiple layers to create a CMYK separation effect on hover.
+                */}
                 <motion.div
                     initial={{ opacity: 0, scale: 0.8 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.8 }}
                     className="relative w-12 h-12 flex items-center justify-center pointer-events-auto"
                 >
-                    {/* Cyan Layer */}
+                    {/* Cyan Layer - Shifts Top-Left/Bottom-Right on hover */}
                     <motion.div
                         className="absolute inset-0 text-cyan-500 mix-blend-screen"
                         variants={{
@@ -36,7 +44,7 @@ const Navbar = () => {
                         <FaStarOfLife className="text-3xl" />
                     </motion.div>
 
-                    {/* Magenta Layer */}
+                    {/* Magenta Layer - Shifts Bottom-Left/Top-Right on hover */}
                     <motion.div
                         className="absolute inset-0 text-magenta-500 mix-blend-screen"
                         variants={{
@@ -52,7 +60,7 @@ const Navbar = () => {
                         <FaStarOfLife className="text-3xl" style={{ color: '#f0f' }} />
                     </motion.div>
 
-                    {/* Yellow Layer */}
+                    {/* Yellow Layer - Shifts Vertically/Horizontally with delay */}
                     <motion.div
                         className="absolute inset-0 text-yellow-500 mix-blend-screen"
                         variants={{
@@ -68,7 +76,7 @@ const Navbar = () => {
                         <FaStarOfLife className="text-3xl" style={{ color: '#ff0' }} />
                     </motion.div>
 
-                    {/* Main Black Layer */}
+                    {/* Main Black Layer - Rotates and scales on hover */}
                     <motion.div
                         className="relative z-10"
                         variants={{
@@ -81,7 +89,7 @@ const Navbar = () => {
                     </motion.div>
                 </motion.div>
 
-                {/* Right Stacked Navigation - Exact match: Gray/Black, Tight spacing */}
+                {/* Right Stacked Navigation Links */}
                 <div className="flex flex-col items-end gap-1">
                     {links.map((item, index) => (
                         <motion.a
@@ -89,6 +97,7 @@ const Navbar = () => {
                             href={`#${item.toLowerCase()}`}
                             initial={{ opacity: 0, x: 20 }}
                             animate={{ opacity: 1, x: 0 }}
+                            // Staggered entrance animation
                             transition={{ delay: 0.2 + index * 0.1 }}
                             className="text-[10px] md:text-[12px] font-bold text-gray-400 hover:text-black transition-colors uppercase tracking-[0.08em] leading-tight font-sans"
                         >

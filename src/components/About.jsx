@@ -6,13 +6,21 @@ import { SiJavascript, SiTailwindcss, SiFramer, SiExpress, SiMongodb, SiVite, Si
 import MagneticWrapper from './MagneticWrapper';
 import TechCube from './TechCube';
 
-// Helper component for word-level scroll reveal
-// Helper component for word-level scroll reveal (Cinematic Blur Effect)
+/**
+ * ScrollRevealWord Component
+ * A helper component that applies a cinematic blur effect to individual words
+ * as the user scrolls.
+ * 
+ * @param {Object} props
+ * @param {string} props.text - The word to display
+ * @param {Array} props.range - The scroll progress range [start, end] for the animation
+ * @param {Object} props.progress - The scroll progress motion value
+ */
 const ScrollRevealWord = ({ text, range, progress }) => {
     // Cinematic Blur: Fade in + Blur out + Slide up
-    const opacity = useTransform(progress, range, [0, 1]);
-    const blur = useTransform(progress, range, ["8px", "0px"]);
-    const y = useTransform(progress, range, [20, 0]);
+    const opacity = useTransform(progress, range, [0, 1]); // Fade in
+    const blur = useTransform(progress, range, ["8px", "0px"]); // Despeckle blur
+    const y = useTransform(progress, range, [20, 0]); // Slide up
 
     return (
         <span className="inline-block align-bottom pb-1 mx-1">
@@ -25,12 +33,23 @@ const ScrollRevealWord = ({ text, range, progress }) => {
     );
 };
 
+/**
+ * About Component
+ * 
+ * Displays the user's tech journey chronology. Features:
+ * - Scroll-driven word reveal title
+ * - Timeline structure with "Energy Beam" connecting sections
+ * - Floating particles background
+ * - Magnetic 3D cubes for skills
+ */
 const About = () => {
     const containerRef = useRef(null);
     const { scrollYProgress } = useScroll({
         target: containerRef,
         offset: ["start end", "end end"] // Start drawing when section enters, finish when it ends
     });
+
+    // Timeline content data structure
     const timelineData = [
         {
             year: "The Foundation",
@@ -83,6 +102,8 @@ const About = () => {
     return (
         <section ref={containerRef} id="about" className="py-20 bg-white text-black font-['Inter'] relative overflow-hidden">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+
+                {/* Header Section with Scroll Reveal */}
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -94,7 +115,7 @@ const About = () => {
                         {/* Anchor: "From" is always visible */}
                         <span className="inline-block">From</span>
 
-                        {/* Animated Words */}
+                        {/* Animated Words triggered by scroll progress */}
                         {[
                             { text: "Curiosity", range: [0.2, 0.3] },
                             { text: "to", range: [0.35, 0.45] },
@@ -116,7 +137,7 @@ const About = () => {
                     </p>
                 </motion.div>
 
-                {/* Robust Story Line (Energy Beam) */}
+                {/* Robust Story Line (Energy Beam) - Central timeline line */}
                 <div className="absolute left-1/2 transform -translate-x-1/2 h-full top-32 bottom-0 hidden md:block w-1 bg-gray-100/50 rounded-full overflow-hidden">
                     <motion.div
                         className="w-full h-full bg-gradient-to-b from-blue-500 via-purple-500 to-pink-500 origin-top"
@@ -124,7 +145,7 @@ const About = () => {
                     />
                 </div>
 
-                {/* Ambient Particles Background */}
+                {/* Ambient Particles Background - Floats randomly */}
                 <div className="absolute inset-0 overflow-hidden pointer-events-none">
                     {[...Array(20)].map((_, i) => (
                         <motion.div
@@ -150,6 +171,7 @@ const About = () => {
                     ))}
                 </div>
 
+                {/* Timeline Items Loop */}
                 <div className="space-y-24 relative z-10">
                     {timelineData.map((phase, index) => (
                         <motion.div
@@ -168,9 +190,10 @@ const About = () => {
                                     }
                                 }
                             }}
+                            // Alternating Layout: Left-Right vs Right-Left
                             className={`flex flex-col md:flex-row items-center justify-between gap-8 ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'}`}
                         >
-                            {/* Text Content */}
+                            {/* Text Content (Title, Description) */}
                             <div className={`w-full md:w-5/12 ${index % 2 === 0 ? 'text-left md:text-right' : 'text-left'}`}>
                                 <motion.h3
                                     variants={{
@@ -201,7 +224,7 @@ const About = () => {
                                 </motion.p>
                             </div>
 
-                            {/* Story Node (Checkpoint) */}
+                            {/* Story Node (Central Circle Checkpoint) */}
                             <motion.div
                                 className="relative items-center justify-center w-10 h-10 rounded-full bg-white border-2 border-gray-200 z-10 hidden md:flex shadow-lg"
                                 whileInView={{
@@ -212,7 +235,7 @@ const About = () => {
                                 viewport={{ margin: "-50% 0px -50% 0px" }}
                                 transition={{ duration: 0.5 }}
                             >
-                                {/* Pulse Effect */}
+                                {/* Pulse Ring Effect */}
                                 <motion.div
                                     className="absolute inset-0 rounded-full border border-purple-500"
                                     initial={{ scale: 1, opacity: 0 }}
@@ -234,7 +257,7 @@ const About = () => {
                                 />
                             </motion.div>
 
-                            {/* Icons Grid (Skill Generation) */}
+                            {/* Skills Grid (Tech Cubes) */}
                             <motion.div
                                 className="w-full md:w-5/12"
                                 variants={{
