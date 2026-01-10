@@ -1,5 +1,5 @@
-import { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { useRef, useState } from 'react';
+import { motion, useScroll, useTransform, useMotionTemplate, useMotionValue, useSpring } from 'framer-motion';
 import { FaHtml5, FaCss3Alt, FaReact, FaBootstrap, FaNodeJs, FaGitAlt, FaGithub, FaNpm, FaFigma, FaRocket, FaLinux } from 'react-icons/fa';
 import { SiJavascript, SiTailwindcss, SiFramer, SiExpress, SiMongodb, SiVite, SiVercel } from 'react-icons/si';
 
@@ -10,11 +10,6 @@ import TechCube from './TechCube';
  * ScrollRevealWord Component
  * A helper component that applies a cinematic blur effect to individual words
  * as the user scrolls.
- * 
- * @param {Object} props
- * @param {string} props.text - The word to display
- * @param {Array} props.range - The scroll progress range [start, end] for the animation
- * @param {Object} props.progress - The scroll progress motion value
  */
 const ScrollRevealWord = ({ text, range, progress }) => {
     // Cinematic Blur: Fade in + Blur out + Slide up
@@ -34,22 +29,41 @@ const ScrollRevealWord = ({ text, range, progress }) => {
 };
 
 /**
- * About Component
+ * About Component - Spotlight Reveal Edition
  * 
- * Displays the user's tech journey chronology. Features:
- * - Scroll-driven word reveal title
- * - Timeline structure with "Energy Beam" connecting sections
- * - Floating particles background
- * - Magnetic 3D cubes for skills
+ * Features:
+ * - "Spotlight" effect: A mouse-following gradient reveals the scrolly background.
+ * - Premium Typography Bio: "I'm Nitin Tanwar..."
+ * - Glassmorphism Timeline: Cleaned up for better contrast against the dynamic background.
  */
 const About = () => {
     const containerRef = useRef(null);
     const { scrollYProgress } = useScroll({
         target: containerRef,
-        offset: ["start end", "end end"] // Start drawing when section enters, finish when it ends
+        offset: ["start end", "end end"]
     });
 
-    // Timeline content data structure
+    // Spotlight Mouse Tracking with Spring Smoothing
+    const mouseX = useMotionValue(0);
+    const mouseY = useMotionValue(0);
+
+    const smoothMouseX = useSpring(mouseX, { stiffness: 500, damping: 30 });
+    const smoothMouseY = useSpring(mouseY, { stiffness: 500, damping: 30 });
+
+    const handleMouseMove = ({ currentTarget, clientX, clientY }) => {
+        const { left, top } = currentTarget.getBoundingClientRect();
+        mouseX.set(clientX - left);
+        mouseY.set(clientY - top);
+    };
+
+    // Dynamic Background Gradient
+    const background = useMotionTemplate`radial-gradient(
+        600px circle at ${smoothMouseX}px ${smoothMouseY}px,
+        rgba(0, 0, 0, 0.1),
+        rgba(0, 0, 0, 0.7) 40%
+    )`;
+
+    // Timeline Data
     const timelineData = [
         {
             year: "The Foundation",
@@ -100,79 +114,60 @@ const About = () => {
     ];
 
     return (
-        <section ref={containerRef} id="about" className="py-20 bg-white text-black font-['Inter'] relative overflow-hidden">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+        <section
+            ref={containerRef}
+            id="about"
+            className="relative py-32 overflow-hidden text-white font-['Inter']"
+            onMouseMove={handleMouseMove}
+        >
+            {/* Spotlight Overlay Layer */}
+            <motion.div
+                className="absolute inset-0 z-0 pointer-events-none transition-opacity duration-500"
+                style={{ background }}
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+            />
 
-                {/* Header Section with Scroll Reveal */}
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6 }}
-                    className="text-center mb-20"
-                >
-                    <h2 className="text-4xl md:text-5xl font-bold mb-4 tracking-tight flex justify-center flex-wrap gap-x-3 gap-y-1">
-                        {/* Anchor: "From" is always visible */}
-                        <span className="inline-block">From</span>
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
 
-                        {/* Animated Words triggered by scroll progress */}
-                        {[
-                            { text: "Curiosity", range: [0.2, 0.3] },
-                            { text: "to", range: [0.35, 0.45] },
-                            { text: "Code", range: [0.5, 0.6] }
-                        ].map((word, index) => (
-                            <ScrollRevealWord
-                                key={index}
-                                text={word.text}
-                                range={word.range}
-                                progress={scrollYProgress}
-                            />
-                        ))}
+                {/* Intro / Bio Section */}
+                <div className="mb-32 text-center max-w-4xl mx-auto">
 
-                        {/* Anchor: "(Tech Stack)" is always visible */}
-                        <span className="inline-block text-gray-400 font-medium">(Tech Stack)</span>
-                    </h2>
-                    <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-                        From the basics to advanced architectural systems.
-                    </p>
-                </motion.div>
-
-                {/* Robust Story Line (Energy Beam) - Central timeline line */}
-                <div className="absolute left-1/2 transform -translate-x-1/2 h-full top-32 bottom-0 hidden md:block w-1 bg-gray-100/50 rounded-full overflow-hidden">
+                    {/* Restored ScrollRevealWord Title */}
                     <motion.div
-                        className="w-full h-full bg-gradient-to-b from-blue-500 via-purple-500 to-pink-500 origin-top"
-                        style={{ scaleY: scrollYProgress }}
-                    />
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.6 }}
+                        className="mb-12"
+                    >
+                        <h2 className="text-4xl md:text-5xl font-bold mb-4 tracking-tight flex justify-center flex-wrap gap-x-3 gap-y-1">
+                            {/* Anchor: "From" is always visible */}
+                            <span className="inline-block">From</span>
+
+                            {/* Animated Words triggered by scroll progress */}
+                            {[
+                                { text: "Curiosity", range: [0.2, 0.3] },
+                                { text: "to", range: [0.35, 0.45] },
+                                { text: "Code", range: [0.5, 0.6] }
+                            ].map((word, index) => (
+                                <ScrollRevealWord
+                                    key={index}
+                                    text={word.text}
+                                    range={word.range}
+                                    progress={scrollYProgress}
+                                />
+                            ))}
+
+                            {/* Anchor: "(Tech Stack)" is always visible */}
+                            <span className="inline-block text-gray-400 font-medium">(Tech Stack)</span>
+                        </h2>
+                    </motion.div>
+
                 </div>
 
-                {/* Ambient Particles Background - Floats randomly */}
-                <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                    {[...Array(20)].map((_, i) => (
-                        <motion.div
-                            key={i}
-                            className={`absolute rounded-full ${i % 3 === 0 ? 'bg-blue-400' : i % 3 === 1 ? 'bg-purple-400' : 'bg-pink-400'}`}
-                            initial={{
-                                x: Math.random() * 100 + "%",
-                                y: Math.random() * 100 + "%",
-                                opacity: 0.1 + Math.random() * 0.2,
-                                scale: 0.5 + Math.random() * 1
-                            }}
-                            animate={{
-                                y: [null, Math.random() * -30 - 20, null],
-                                opacity: [null, 0.3, null]
-                            }}
-                            transition={{
-                                duration: 5 + Math.random() * 10,
-                                repeat: Infinity,
-                                ease: "easeInOut"
-                            }}
-                            style={{ width: Math.random() * 6 + 2, height: Math.random() * 6 + 2 }}
-                        />
-                    ))}
-                </div>
-
-                {/* Timeline Items Loop */}
-                <div className="space-y-24 relative z-10">
+                {/* Timeline Items */}
+                <div className="space-y-24">
                     {timelineData.map((phase, index) => (
                         <motion.div
                             key={index}
@@ -184,102 +179,28 @@ const About = () => {
                                 visible: {
                                     opacity: 1,
                                     y: 0,
-                                    transition: {
-                                        duration: 0.8,
-                                        staggerChildren: 0.2 // Stagger text and skills
-                                    }
+                                    transition: { duration: 0.8, staggerChildren: 0.2 }
                                 }
                             }}
-                            // Alternating Layout: Left-Right vs Right-Left
-                            className={`flex flex-col md:flex-row items-center justify-between gap-8 ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'}`}
+                            className={`flex flex-col md:flex-row items-center justify-between gap-12 ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'}`}
                         >
-                            {/* Text Content (Title, Description) */}
+                            {/* Text Content */}
                             <div className={`w-full md:w-5/12 ${index % 2 === 0 ? 'text-left md:text-right' : 'text-left'}`}>
-                                <motion.h3
-                                    variants={{
-                                        hidden: { opacity: 0, x: index % 2 === 0 ? -20 : 20 },
-                                        visible: { opacity: 1, x: 0, transition: { duration: 0.5 } }
-                                    }}
-                                    className="text-2xl font-bold text-gray-900 mb-2"
-                                >
-                                    {phase.year}
-                                </motion.h3>
-                                <motion.h4
-                                    variants={{
-                                        hidden: { opacity: 0, x: index % 2 === 0 ? -20 : 20 },
-                                        visible: { opacity: 1, x: 0, transition: { duration: 0.5 } }
-                                    }}
-                                    className="text-xl font-semibold text-gray-700 mb-2"
-                                >
-                                    {phase.title}
-                                </motion.h4>
-                                <motion.p
-                                    variants={{
-                                        hidden: { opacity: 0, y: 10 },
-                                        visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
-                                    }}
-                                    className="text-gray-500"
-                                >
-                                    {phase.description}
-                                </motion.p>
+                                <h3 className="text-4xl font-bold text-white mb-2">{phase.year}</h3>
+                                <h4 className="text-2xl font-semibold text-purple-400 mb-4">{phase.title}</h4>
+                                <p className="text-gray-400 text-lg leading-relaxed">{phase.description}</p>
                             </div>
 
-                            {/* Story Node (Central Circle Checkpoint) */}
-                            <motion.div
-                                className="relative items-center justify-center w-10 h-10 rounded-full bg-white border-2 border-gray-200 z-10 hidden md:flex shadow-lg"
-                                whileInView={{
-                                    scale: 1.2,
-                                    borderColor: "#8B5CF6",
-                                    boxShadow: "0 0 20px rgba(139, 92, 246, 0.5)"
-                                }}
-                                viewport={{ margin: "-50% 0px -50% 0px" }}
-                                transition={{ duration: 0.5 }}
-                            >
-                                {/* Pulse Ring Effect */}
-                                <motion.div
-                                    className="absolute inset-0 rounded-full border border-purple-500"
-                                    initial={{ scale: 1, opacity: 0 }}
-                                    whileInView={{
-                                        scale: 2.5,
-                                        opacity: [0.5, 0]
-                                    }}
-                                    viewport={{ margin: "-50% 0px -50% 0px" }}
-                                    transition={{
-                                        duration: 1.5,
-                                        repeat: Infinity,
-                                        delay: 0.5
-                                    }}
-                                />
-                                <motion.div
-                                    className="w-4 h-4 rounded-full bg-gray-300"
-                                    whileInView={{ backgroundColor: "#8B5CF6" }}
-                                    viewport={{ margin: "-50% 0px -50% 0px" }}
-                                />
-                            </motion.div>
+                            {/* Center Connector (Hidden on Mobile) */}
+                            <div className="hidden md:flex items-center justify-center w-12 h-12 rounded-full border border-white/10 bg-black/50 backdrop-blur-sm relative z-10">
+                                <div className="w-3 h-3 rounded-full bg-purple-500 shadow-[0_0_10px_rgba(168,85,247,0.5)]" />
+                            </div>
 
-                            {/* Skills Grid (Tech Cubes) */}
-                            <motion.div
-                                className="w-full md:w-5/12"
-                                variants={{
-                                    // Start from center (simulate emerging from line)
-                                    hidden: { opacity: 0, x: index % 2 === 0 ? -50 : 50, scale: 0.8 },
-                                    visible: {
-                                        opacity: 1,
-                                        x: 0,
-                                        scale: 1,
-                                        transition: {
-                                            type: "spring",
-                                            bounce: 0.4,
-                                            duration: 1,
-                                            delayChildren: 0.3,
-                                            staggerChildren: 0.1
-                                        }
-                                    }
-                                }}
-                            >
-                                <div className="grid grid-cols-3 gap-6 justify-items-center">
+                            {/* Skills Grid */}
+                            <div className="w-full md:w-5/12">
+                                <div className={`grid grid-cols-3 gap-6 ${index % 2 === 0 ? 'justify-items-start' : 'justify-items-end'}`}>
                                     {phase.items.map((item, i) => (
-                                        <MagneticWrapper strength={0.3}>
+                                        <MagneticWrapper key={i} strength={0.3}>
                                             <motion.div
                                                 className="flex flex-col items-center gap-4 group cursor-pointer"
                                                 variants={{
@@ -287,15 +208,16 @@ const About = () => {
                                                     visible: { opacity: 1, scale: 1 }
                                                 }}
                                             >
+                                                {/* RESTORED TECH CUBE */}
                                                 <TechCube icon={item.icon} color={item.color} />
-                                                <span className="text-xs font-medium text-gray-400 group-hover:text-black transition-colors duration-300">
+                                                <span className="text-xs font-medium text-gray-400 group-hover:text-white transition-colors duration-300">
                                                     {item.name}
                                                 </span>
                                             </motion.div>
                                         </MagneticWrapper>
                                     ))}
                                 </div>
-                            </motion.div>
+                            </div>
                         </motion.div>
                     ))}
                 </div>

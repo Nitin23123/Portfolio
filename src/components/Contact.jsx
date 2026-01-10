@@ -8,7 +8,7 @@ import { motion } from 'framer-motion';
  */
 const Contact = () => {
     return (
-        <section id="contact" className="py-32 bg-gray-50 text-black">
+        <section id="contact" className="py-32 bg-transparent text-white">
             <div className="max-w-4xl mx-auto px-4 text-center">
                 <motion.div
                     initial={{ opacity: 0, y: 50 }}

@@ -85,7 +85,7 @@ const Navbar = () => {
                         }}
                         transition={{ type: "spring", stiffness: 300 }}
                     >
-                        <FaStarOfLife className="text-2xl md:text-3xl text-black" />
+                        <FaStarOfLife className="text-2xl md:text-3xl text-white" />
                     </motion.div>
                 </motion.div>
 
@@ -99,7 +99,7 @@ const Navbar = () => {
                             animate={{ opacity: 1, x: 0 }}
                             // Staggered entrance animation
                             transition={{ delay: 0.2 + index * 0.1 }}
-                            className="text-[10px] md:text-[12px] font-bold text-gray-400 hover:text-black transition-colors uppercase tracking-[0.08em] leading-tight font-sans"
+                            className="text-[10px] md:text-[12px] font-bold text-gray-400 hover:text-white transition-colors uppercase tracking-[0.08em] leading-tight font-sans"
                         >
                             {item}
                         </motion.a>

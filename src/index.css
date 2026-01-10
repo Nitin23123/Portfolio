@@ -13,8 +13,8 @@ html,
 body {
   scroll-behavior: smooth;
   font-family: 'Inter', sans-serif;
-  background-color: #ffffff;
-  color: #121212;
+  background-color: transparent;
+  color: #ffffff;
   @apply antialiased subpixel-antialiased;
 }
 

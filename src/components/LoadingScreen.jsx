@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import ScrambleText from './ScrambleText';
 
 /**
  * LoadingScreen Component
@@ -60,7 +59,7 @@ const LoadingScreen = ({ onComplete }) => {
             {/* Top Left: Loading Indicator */}
             <div className="flex items-start">
                 <span className="text-sm font-bold tracking-widest uppercase">
-                    <ScrambleText text="LOADING" hover={false} />
+                    LOADING
                 </span>
             </div>
 
@@ -100,14 +99,18 @@ const LoadingScreen = ({ onComplete }) => {
 
                 {/* Bottom Left: Dynamic Loading Text */}
                 <div className="text-lg md:text-2xl font-light text-white font-mono mb-2 md:mb-4 min-w-[300px]">
-                    <ScrambleText
+                    <motion.span
                         key={textIndex}
-                        text={loadingTexts[textIndex]}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.3 }}
                         className="inline-block"
-                        hover={false}
-                        delay={0}
-                    />
+                    >
+                        {loadingTexts[textIndex]}
+                    </motion.span>
                 </div>
+
 
                 {/* Bottom Right: Percentage Counter */}
                 <h1 className="text-[8vw] md:text-[10vw] leading-[0.8] font-black tracking-tighter">
