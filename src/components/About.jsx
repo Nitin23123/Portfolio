@@ -167,7 +167,7 @@ const About = () => {
                 </div>
 
                 {/* Timeline Items */}
-                <div className="space-y-24">
+                <div id="tech-stack" className="space-y-24 pt-20">
                     {timelineData.map((phase, index) => (
                         <motion.div
                             key={index}

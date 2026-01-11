@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion, useScroll, useTransform, useMotionTemplate, useMotionValue } from 'framer-motion';
 import MagneticWrapper from './MagneticWrapper';
 
 /**
@@ -27,7 +27,8 @@ const Experience = () => {
             description: "Developed a demo website for Academic Avenger. Built with modern frontend technologies.",
             mainUrl: "https://academicavengers.com/",
             demoUrl: "https://academicavenger.onrender.com/",
-            tech: ["React", "Tailwind", "Framer Motion"]
+            tech: ["React", "Tailwind", "Framer Motion"],
+            internshipUrl: "/internship.pdf"
         }
     ];
 
@@ -72,23 +73,66 @@ const Experience = () => {
 };
 
 const ExperienceCard = ({ data, index }) => {
+    const cardRef = useRef(null);
+    const mouseX = useMotionValue(0);
+    const mouseY = useMotionValue(0);
+
+    const handleMouseMove = ({ currentTarget, clientX, clientY }) => {
+        const { left, top } = currentTarget.getBoundingClientRect();
+        mouseX.set(clientX - left);
+        mouseY.set(clientY - top);
+    };
+
     return (
         <motion.div
+            ref={cardRef}
             initial={{ opacity: 0, y: 100 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.8, type: "spring", bounce: 0.2 }}
+            transition={{ duration: 1.0, ease: [0.22, 1, 0.36, 1], delay: index * 0.1 }}
             className="group relative"
+            onMouseMove={handleMouseMove}
         >
-            {/* Card Container with Gradient Border Effect */}
-            <div className="relative p-[1px] rounded-3xl overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-r from-purple-500/40 via-blue-500/40 to-purple-500/40 opacity-0 group-hover:opacity-100 transition-opacity duration-700 animate-gradient-xy" />
+            {/* Spotlight Border Effect */}
+            <div className="absolute inset-0 rounded-3xl overflow-hidden pointer-events-none">
+                <motion.div
+                    className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                    style={{
+                        background: useMotionTemplate`
+                            radial-gradient(
+                                650px circle at ${mouseX}px ${mouseY}px,
+                                rgba(147, 51, 234, 0.4),
+                                transparent 80%
+                            )
+                        `
+                    }}
+                />
+            </div>
 
-                <div className="relative p-10 rounded-3xl bg-neutral-900/90 backdrop-blur-xl border border-white/5 group-hover:bg-neutral-900/80 transition-colors duration-500">
+            {/* Card Content Container */}
+            <div className="relative p-[1px] rounded-3xl overflow-hidden">
+                {/* Subtle static border */}
+                <div className="absolute inset-0 rounded-3xl border border-white/5" />
+
+                {/* Moving Spotlight Highlight on the border */}
+                <motion.div
+                    className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                    style={{
+                        background: useMotionTemplate`
+                            radial-gradient(
+                                800px circle at ${mouseX}px ${mouseY}px,
+                                rgba(255, 255, 255, 0.15),
+                                transparent 40%
+                            )
+                        `
+                    }}
+                />
+
+                <div className="relative p-10 rounded-3xl bg-neutral-900/40 backdrop-blur-xl group-hover:bg-neutral-900/30 transition-colors duration-500">
                     <div className="flex flex-col md:flex-row gap-10">
                         {/* Period (Left/Top) */}
                         <div className="md:w-1/4">
-                            <span className="inline-block px-4 py-1.5 rounded-full border border-purple-500/20 bg-purple-500/10 text-purple-300 font-mono text-xs uppercase tracking-wider">
+                            <span className="inline-block px-4 py-1.5 rounded-full border border-purple-500/20 bg-purple-500/5 text-purple-300 font-mono text-xs uppercase tracking-wider backdrop-blur-md">
                                 {data.period}
                             </span>
                         </div>
@@ -107,7 +151,7 @@ const ExperienceCard = ({ data, index }) => {
                             {/* Tech Tags */}
                             <div className="flex flex-wrap gap-2">
                                 {data.tech.map((tech, i) => (
-                                    <span key={i} className="text-xs font-semibold text-gray-500 bg-white/5 px-3 py-1 rounded-md">
+                                    <span key={i} className="text-xs font-semibold text-gray-500 bg-white/5 px-3 py-1 rounded-md border border-white/5 transition-colors group-hover:border-white/10 group-hover:bg-white/10 group-hover:text-gray-300">
                                         {tech}
                                     </span>
                                 ))}
@@ -139,6 +183,20 @@ const ExperienceCard = ({ data, index }) => {
                                         >
                                             View Demo
                                             <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+                                        </a>
+                                    </MagneticWrapper>
+                                )}
+
+                                {data.internshipUrl && (
+                                    <MagneticWrapper strength={0.2}>
+                                        <a
+                                            href={data.internshipUrl}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="inline-flex items-center gap-2 px-8 py-4 rounded-full border border-white/20 text-white hover:bg-white/10 transition-colors"
+                                        >
+                                            Internship Certificate
+                                            <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
                                         </a>
                                     </MagneticWrapper>
                                 )}
