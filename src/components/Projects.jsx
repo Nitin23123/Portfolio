@@ -67,8 +67,8 @@ const Projects = () => {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ delay: index * 0.1 }}
-                            onMouseEnter={() => setHoveredProject(index)}
-                            className={`group border-t border-white/20 py-16 flex flex-col md:flex-row md:items-center justify-between transition-all duration-500 cursor-none ${hoveredProject !== null && hoveredProject !== index ? 'opacity-20 blur-[2px]' : 'opacity-100'}`}
+                            onMouseEnter={() => window.matchMedia('(hover: hover)').matches && setHoveredProject(index)}
+                            className={`group border-t border-white/20 py-10 md:py-16 flex flex-col md:flex-row md:items-center justify-between transition-all duration-500 cursor-default md:cursor-none ${hoveredProject !== null && hoveredProject !== index ? 'opacity-20 blur-[2px]' : 'opacity-100'}`}
                         >
                             {/* Project Number & Title */}
                             <div className="flex flex-col md:flex-row md:items-baseline md:gap-12 pointer-events-none">

@@ -198,7 +198,7 @@ const About = () => {
 
                             {/* Skills Grid */}
                             <div className="w-full md:w-5/12">
-                                <div className={`grid grid-cols-3 gap-6 ${index % 2 === 0 ? 'justify-items-start' : 'justify-items-end'}`}>
+                                <div className={`grid grid-cols-3 sm:grid-cols-4 md:grid-cols-3 gap-4 sm:gap-6 ${index % 2 === 0 ? 'justify-items-start' : 'justify-items-end'}`}>
                                     {phase.items.map((item, i) => (
                                         <MagneticWrapper key={i} strength={0.3}>
                                             <motion.div

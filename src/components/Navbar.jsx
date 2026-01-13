@@ -96,6 +96,7 @@ const Navbar = () => {
                     className="flex flex-col items-end"
                     onMouseEnter={() => isScrolled && setIsMenuOpen(true)}
                     onMouseLeave={() => isScrolled && setIsMenuOpen(false)}
+                    onClick={() => isScrolled && setIsMenuOpen(!isMenuOpen)} // Toggle on click for mobile
                 >
                     <AnimatePresence mode='wait'>
                         {(!isScrolled || isMenuOpen) ? (
@@ -104,7 +105,7 @@ const Navbar = () => {
                                 initial={{ opacity: 0, x: 20 }}
                                 animate={{ opacity: 1, x: 0 }}
                                 exit={{ opacity: 0, x: 20, transition: { duration: 0.2 } }}
-                                className={`flex ${isScrolled ? 'flex-col gap-4 bg-black/80 backdrop-blur-md p-6 rounded-2xl border border-white/10' : 'flex-row gap-8'} items-center`}
+                                className={`flex ${isScrolled ? 'flex-col gap-4 bg-black/80 backdrop-blur-md p-6 rounded-2xl border border-white/10' : 'hidden md:flex flex-row gap-8'} items-center`}
                             >
                                 {links.map((item, index) => (
                                     <MagneticWrapper key={index} strength={0.2}>
@@ -128,7 +129,7 @@ const Navbar = () => {
                                 initial={{ opacity: 0, scale: 0.8 }}
                                 animate={{ opacity: 1, scale: 1 }}
                                 exit={{ opacity: 0, scale: 0.8 }}
-                                className="bg-white/10 backdrop-blur-md p-4 rounded-full border border-white/10 cursor-pointer hover:bg-white/20 transition-colors"
+                                className={`bg-white/10 backdrop-blur-md p-4 rounded-full border border-white/10 cursor-pointer hover:bg-white/20 transition-colors ${!isScrolled && 'md:hidden'}`}
                             >
                                 <FaBars className="text-white text-xl" />
                             </motion.div>

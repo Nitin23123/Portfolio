@@ -58,15 +58,15 @@ const LoadingScreen = ({ onComplete }) => {
         >
             {/* Top Left: Loading Indicator */}
             <div className="flex items-start">
-                <span className="text-sm font-bold tracking-widest uppercase">
+                <span className="text-xs md:text-sm font-bold tracking-widest uppercase">
                     LOADING
                 </span>
             </div>
 
             {/* Center: Console Log Message Animation */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full text-center">
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full text-center px-4">
                 <motion.div
-                    className="inline-block text-lg md:text-2xl font-mono text-white relative px-4 py-2"
+                    className="inline-block text-sm sm:text-lg md:text-2xl font-mono text-white relative px-2 md:px-4 py-2"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     whileHover={{ scale: 1.05, textShadow: "0 0 8px rgba(255,255,255,0.5)" }}
@@ -113,7 +113,7 @@ const LoadingScreen = ({ onComplete }) => {
 
 
                 {/* Bottom Right: Percentage Counter */}
-                <h1 className="text-[8vw] md:text-[10vw] leading-[0.8] font-black tracking-tighter">
+                <h1 className="text-[15vw] md:text-[10vw] leading-[0.8] font-black tracking-tighter">
                     {count}%
                 </h1>
             </div>

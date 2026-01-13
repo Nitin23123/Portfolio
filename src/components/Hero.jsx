@@ -31,7 +31,7 @@ const Hero = () => {
         <section className="min-h-screen bg-transparent flex flex-col pt-32 md:pt-48 relative overflow-hidden font-sans">
 
             {/* Top Section: Headlines & Bio */}
-            <div className="px-6 md:px-12 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 mb-auto w-full max-w-[1920px] mx-auto h-full">
+            <div className="px-8 md:px-12 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 mb-auto w-full max-w-[1920px] mx-auto h-full">
 
                 {/* Animated Headline - Left Column */}
                 <motion.div
@@ -40,7 +40,7 @@ const Hero = () => {
                     transition={{ duration: 0.8 }}
                     className="flex flex-col justify-start"
                 >
-                    <h1 className="text-5xl sm:text-6xl md:text-5xl lg:text-7xl font-bold text-white leading-[1.05] tracking-tight max-w-4xl">
+                    <h1 className="text-4xl sm:text-6xl md:text-5xl lg:text-7xl font-bold text-white leading-[1.05] tracking-tight max-w-4xl">
                         {/* Staggered scramble effects */}
                         <ScrambleText text="Web Development" className="block" />
                         <ScrambleText text="Design" className="block" delay={200} />
@@ -63,7 +63,7 @@ const Hero = () => {
 
             {/* Interactive Name Display - 3D Rolling Letter Effect */}
             <div className="w-full mt-16 md:mt-32 flex justify-center perspective-[1000px]">
-                <h1 className="text-[15.5vw] leading-[0.75] font-black tracking-[-0.06em] text-center text-white/10 select-none cursor-default flex justify-center gap-2 md:gap-4 flex-wrap">
+                <h1 className="text-[14vw] md:text-[15.5vw] leading-[0.75] font-black tracking-[-0.06em] text-center text-white/10 select-none cursor-default flex justify-center gap-2 md:gap-4 flex-wrap">
                     {"Nitin Tanwar".split(" ").map((word, wordIndex) => (
                         <div key={wordIndex} className="flex">
                             {word.split('').map((char, charIndex) => (
@@ -116,14 +116,14 @@ const Hero = () => {
                         viewport={{ once: true }}
                         transition={{ duration: 1 }}
                         style={{ y, scale, opacity, filter: blur }} // Apply scroll transforms
-                        className="relative w-full h-[90%] md:h-full"
+                        className="relative w-full h-[60vh] md:h-full"
                     >
                         {/* Image Masked to blend with black background */}
                         <div className="absolute inset-0 z-0">
                             <img
                                 src={profileImg}
                                 alt="Nitin Tanwar"
-                                className="w-full h-full object-cover object-top opacity-90 grayscale"
+                                className="w-full h-full object-contain object-bottom md:object-cover md:object-top opacity-90 grayscale"
                                 style={{
                                     maskImage: 'radial-gradient(circle at 50% 30%, black 40%, transparent 80%)',
                                     WebkitMaskImage: 'radial-gradient(circle at 50% 30%, black 40%, transparent 80%)'

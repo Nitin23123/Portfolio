@@ -17,7 +17,7 @@ const Contact = () => {
                     transition={{ duration: 0.8 }}
                 >
                     <p className="text-gray-500 font-medium tracking-wider uppercase mb-4">What's Next?</p>
-                    <h2 className="text-6xl md:text-8xl font-black mb-12 tracking-tighter">
+                    <h2 className="text-5xl sm:text-6xl md:text-8xl font-black mb-12 tracking-tighter">
                         LET'S WORK<br />TOGETHER
                     </h2>
 
@@ -25,7 +25,7 @@ const Contact = () => {
                         href="https://www.linkedin.com/in/nitin-tanwar-535018303/"
                         target="_blanpk"
                         rel="noopener noreferrer"
-                        className="inline-block px-12 py-5 bg-black text-white rounded-full font-bold text-lg hover:bg-gray-900 transition-all hover:scale-105"
+                        className="inline-block px-10 py-4 md:px-12 md:py-5 bg-black text-white rounded-full font-bold text-base md:text-lg hover:bg-gray-900 transition-all hover:scale-105"
                     >
                         Say Hello
                     </a>
