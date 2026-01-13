@@ -1,93 +1,94 @@
-# Portfolio 2026 - Interactive Experience
+<div align="center">
+  <br />
+  <h1>✨ Portfolio 2026</h1>
+  <h3>Interactive Experience & Creative Development</h3>
+  <br />
+  
+  ![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)
+  ![React](https://img.shields.io/badge/react-18.x-61DAFB?logo=react&logoColor=black&style=flat-square)
+  ![Vite](https://img.shields.io/badge/vite-5.x-646CFF?logo=vite&logoColor=white&style=flat-square)
+  ![Tailwind](https://img.shields.io/badge/tailwindcss-3.x-38B2AC?logo=tailwindcss&logoColor=white&style=flat-square)
+  ![Framer Motion](https://img.shields.io/badge/motion-11.x-0055FF?logo=framer&logoColor=white&style=flat-square)
 
-> A high-performance, visually immersive portfolio engineered with modern web technologies. This project showcases advanced frontend techniques including hardware-accelerated animations, physics-based interactions, and WebGL-like canvas rendering without the overhead of 3D libraries.
+  <br />
+  <p align="center">
+    A high-performance, visually immersive portfolio engineered with modern web technologies. <br/>
+    Featuring hardware-accelerated animations, physics-based interactions, and WebGL-like canvas rendering.
+  </p>
+</div>
 
-![License](https://img.shields.io/badge/license-MIT-blue.svg)
-![React](https://img.shields.io/badge/react-18.x-61DAFB?logo=react&logoColor=black)
-![Vite](https://img.shields.io/badge/vite-5.x-646CFF?logo=vite&logoColor=white)
-![Tailwind](https://img.shields.io/badge/tailwindcss-3.x-38B2AC?logo=tailwindcss&logoColor=white)
-![Framer Motion](https://img.shields.io/badge/motion-11.x-0055FF?logo=framer&logoColor=white)
+<br />
 
-## 🏗️ Architecture & Tech Stack
+## 🌟 Overview
 
-This application is built on a **Vite** powered **React** architecture, prioritizing sub-millisecond load times and 60fps rendering performance.
-
-### Core Stack
-- **Runtime**: React 18 (Concurrent Mode enabled)
-- **Bundler**: Vite (ESBuild for faster HMR)
-- **Styling**: Tailwind CSS (JIT Engine) + Custom CSS Variables for dynamic themes
-- **Animation**: Framer Motion (Orchestration & Gestures) + Spring Physics
-- **Scroll System**: Lenis (Virtual Scroll) + Custom Scrollytelling Canvas
+This project represents the cutting edge of modern frontend development, prioritizing sub-millisecond load times and silky smooth 60fps rendering. It moves beyond traditional static portfolios to offer a dynamic, application-like experience.
 
 ## 🚀 Key Features
 
-### 1. Canvas-Based Scrollytelling
-Instead of heavy video files, the background animation utilizes a **High-Performance Canvas Renderer (`ScrollyCanvas.jsx`)**. 
-- **Technique**: Preloads a sequence of 75 high-res frames and renders them onto a 2D context synced to scroll progress.
-- **Optimization**: Uses `requestAnimationFrame` and off-screen buffering to ensure tear-free rendering.
-- **Physics**: Integrated `useSpring` hooks to interpolate frame indices, masking scroll jitter and simulating fluid momentum.
+| Feature | Description |
+|:--- |:--- |
+| **🎨 Scrollytelling Canvas** | High-performance 2D context rendering synced to scroll progress, using off-screen buffering for tear-free animation. |
+| **🔦 Spotlight Reveal** | Dynamic masking layer using CSS `mix-blend-mode` and reactive gradients that track mouse movements in real-time. |
+| **🧲 Magnetic Interactions** | Custom physics-based magnetic field wrapper for UI elements, creating a tactile "sticky" feel. |
+| **🍎 Inertial Scrolling** | Integrated `Lenis` for unified, apple-style smooth scrolling normalization across all devices. |
+| **⚡ Performance First** | Built on Vite with React 18 Concurrent Mode, fully optimized for minimal layout thrashing. |
 
-### 2. Spotlight Reveal System
-The **About Section** implements a dynamic masking layer using CSS `mix-blend-mode` and reactive gradients.
-- **Logic**: Tracks mouse coordinates in real-time via `useMotionValue`.
-- **Performance**: Bypass React renders by directly manipulating the DOM style text node via Framer Motion's `useMotionTemplate`.
+## 🛠️ Architecture & Tech Stack
 
-### 3. Magnetic & Physics Interactions
-UI elements (buttons, cards, icons) feature a custom **Magnetic Field Wrapper (`MagneticWrapper.jsx`)**.
-- **Behavior**: Elements resist cursor movement within a defined threshold using spring physics, creating a tactile "sticky" feel closer to native mobile apps than traditional web UIs.
+This application utilizes a modern **Vite** powered **React** architecture.
 
-### 4. Apple-Style Inertial Scrolling
-Integrated **Lenis** for unified smooth scrolling normalization across devices.
-- **Config**: Tuned damping (`0.1`) and duration (`1.2s`) to mimic macOS trackpad inertia on all input devices.
+-   **Core**: React 18
+-   **Build Tool**: Vite (ESBuild)
+-   **Styling**: Tailwind CSS (JIT) + CSS Variables
+-   **Animation**: Framer Motion + Spring Physics
+-   **Scroll**: Lenis + Custom Canvas Engine
 
-## 🛠️ Installation & Setup
+## 📦 Installation
 
 Ensure you have **Node.js 18+** installed.
 
 ```bash
-# Clone the repository
-git clone https://github.com/yourusername/portfolio-2026.git
+# 1. Clone the repository
+git clone https://github.com/nitin101/portfolio-2026.git
 
-# Navigate to project root
+# 2. Navigate to project directory
 cd portfolio-2026
 
-# Install dependencies (utilizing npm ci for deterministic tree)
+# 3. Install dependencies
 npm ci
 
-# Start Development Server (HMR enabled)
+# 4. Start the development server
 npm run dev
 ```
 
-## 📦 Build for Production
-
-The production build pipeline optimizes assets, tree-shakes unused code, and generates a static distribution.
-
-```bash
-# Generate production build
-npm run build
-
-# Preview production build locally
-npm run preview
-```
-
-## 📂 Project Structure
+## 🏗️ Project Structure
 
 ```
 src/
-├── components/        # Atomic reusable UI components
-│   ├── ScrollyCanvas.jsx  # Core scroll animation engine
-│   ├── MagneticWrapper.jsx# Physics interaction layer
+├── components/          # 🧩 Atomic reusable UI components
+│   ├── ScrollyCanvas.jsx    # Core scroll animation logic
+│   ├── MagneticWrapper.jsx  # Physics interaction layer
 │   └── ...
-├── assets/           # Static assets (images, fonts)
-└── App.jsx           # Root layout & Scroll Context Provider
-public/
-└── sequence/         # Scrollytelling frame assets (75 frames)
+├── assets/              # 🖼️ Static assets (images, fonts)
+└── App.jsx              # ⚛️ Root layout & Scroll Context
 ```
 
 ## 🤝 Contributing
 
-Contributions are welcome. Please ensure all PRs adhere to the existing code style (ESLint + Prettier config provided) and maintain the animation performance budget (avoid layout thrashing in render loops).
+Contributions are welcome! Please ensure that your pull requests adhere to the existing code style and maintain the performance budget.
+
+1.  Fork the repository
+2.  Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3.  Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4.  Push to the branch (`git push origin feature/AmazingFeature`)
+5.  Open a Pull Request
+
+## 📄 License
+
+Distributed under the MIT License. See `LICENSE` for more information.
 
 ---
 
-**© 2026 Nitin Tanwar.** Engineered with precision.
+<div align="center">
+  <sub>Designed and Engineered by Nitin Tanwar</sub>
+</div>
