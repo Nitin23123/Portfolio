@@ -1,12 +1,14 @@
 import { useRef } from 'react';
 import { motion, useScroll, useTransform, useMotionTemplate, useMotionValue } from 'framer-motion';
 import MagneticWrapper from './MagneticWrapper';
+import Experience3D from './Experience3D';
 
 /**
  * Experience Component
  * 
  * A premium, Awwwards-style implementation of work history.
  * Features:
+ * - 3D Journey Background (Three.js)
  * - Sticky sidebar layout for the title
  * - Cinematic scroll animations
  * - Holographic/Glassmorphism cards
@@ -29,12 +31,23 @@ const Experience = () => {
             demoUrl: "https://academicavenger.onrender.com/",
             tech: ["React", "Tailwind", "Framer Motion"],
             internshipUrl: "/internship.pdf"
+        },
+        {
+            company: "Novus Aegis AI",
+            role: "Full Stack Developer",
+            period: "Jan 2026 - Present",
+            description: "Full-time position based in Texas, United States (Remote).",
+            mainUrl: "",
+            demoUrl: "",
+            tech: [],
+            internshipUrl: ""
         }
     ];
 
     return (
-        <section ref={containerRef} id="experience" className="bg-black/30 text-white relative z-10 backdrop-blur-sm">
-            <div className="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 py-32">
+        <section ref={containerRef} id="experience" className="relative z-10 text-white">
+            <Experience3D scrollYProgress={scrollYProgress} />
+            <div className="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 py-32 relative z-20">
                 <div className="flex flex-col lg:flex-row gap-20">
 
                     {/* Sticky Title Section */}
